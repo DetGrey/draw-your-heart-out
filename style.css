@@ -33,6 +33,7 @@ a, p, button {
 h1 {
     font-family: 'Zeyada', cursive;
     font-size: 60px;
+    min-width: fit-content;
 }
 
 header, nav ul {
@@ -40,6 +41,7 @@ header, nav ul {
     justify-content: space-between;
     padding: 0.5vw;
     align-items: center;
+    flex-wrap: wrap;
 }
 
 nav li {
@@ -58,6 +60,7 @@ section {
 }
 #toolbar-top {
     align-items: center;
+    justify-content: space-evenly;
 }
 #toolbar-top, #main-section {
     background-color: #ffffff30;
@@ -68,8 +71,12 @@ section {
     width: 40px;
     justify-self: left;
 }
+#toolbar-left img {
+    width: 30px;
+    height: auto;
+}
 #toolbar-top input {
-    width: 40px;
+    width: 50px;
 }
 input {
     padding: 0;

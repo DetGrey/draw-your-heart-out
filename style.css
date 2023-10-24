@@ -1,0 +1,90 @@
+@import url('https://fonts.googleapis.com/css2?family=Zeyada&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Handlee&display=swap');
+
+:root {
+    --purple: #7E1E80;
+}
+
+* {
+    padding: 0;
+    margin: 0;
+    color: black;
+    font-family: 'Handlee', cursive;
+    font-weight: bold;
+    font-size: 16px;
+}
+
+/* -------------------------------- BACKGROUND AND LOGO */
+html {
+    background: var(--purple);
+}
+
+body {
+    min-height: 100vh;
+    background-image: url("background.svg");
+    background-size: 100%;
+
+}
+
+a, p, button {
+    padding: 1vw;
+}
+
+h1 {
+    font-family: 'Zeyada', cursive;
+    font-size: 60px;
+}
+
+header, nav ul {
+    display: flex;
+    justify-content: space-between;
+    padding: 0.5vw;
+    align-items: center;
+}
+
+nav li {
+    list-style: none;
+}
+nav a {
+    font-size: 30px;
+    text-decoration: none;
+    /*color: var(--purple);*/
+}
+a:hover {
+    color: white;
+}
+section {
+    display: flex;
+}
+#toolbar-top {
+    align-items: center;
+}
+#toolbar-top, #main-section {
+    background-color: #ffffff30;
+    padding: 5px;
+}
+#toolbar-left {
+    flex-direction: column;
+    width: 40px;
+    justify-self: left;
+}
+#toolbar-top input {
+    width: 40px;
+}
+input {
+    padding: 0;
+    background-color: #ffffff30;
+    border: none;
+}
+
+button {
+    background-color: #ffffff30;
+    border: none;
+}
+button:hover {
+    background-color: #ffffff50;
+}
+
+canvas {
+    background-color: white;
+}

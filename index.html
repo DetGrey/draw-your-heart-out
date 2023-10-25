@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>p5.js example</title>
+  <link rel="stylesheet" href="style.css">
+
+  <script src="p5.js"></script>
+</head>
+
+<body>
+<header>
+  <h1>Draw your heart out</h1>
+
+  <!-- NAVIGATION LINKS -->
+  <nav>
+    <ul>
+      <li><a class="flexbox-item" href="index.html">Canvas</a></li>
+      <li><a class="flexbox-item" href="index.html">Gallery</a></li>
+    </ul>
+  </nav>
+</header>
+
+<main>
+  <section id="toolbar-top">
+      <p>brush</p>
+      <label for="colour-picker">
+        <input id="colour-picker" type="color"/>
+      </label>
+      <label for="size">
+        size
+        <input id="size" type="number" min="1" max="100" value="4" onchange="strokeWeight(this.value)">
+      </label>
+      <label for="opacity">
+        opacity
+        <input id="opacity" type="range" min="0" max="100" value="100">
+      </label>
+      <label for="canvas-width">
+        width
+        <input id="canvas-width" type="number" min="1" max="2000" value="400">
+        px
+      </label>
+      <label for="canvas-height">
+        height
+        <input id="canvas-height" type="number" min="1" max="2000" value="400">
+        px
+      </label>
+
+      <button id="clear-btn">Clear</button>
+      <button id="save-btn">Save</button>
+  </section>
+
+  <section id="main-section">
+    <div id="toolbar-left">
+        <div id="tb-draw" class="active">
+            <img src="icons/tb-draw-active.png" alt="pencil icon">
+        </div>
+        <div id="tb-img">
+            <label for="img-upload">
+                <img src="icons/tb-img.png" alt="camera icon">
+            </label>
+            <input id="img-upload" type="file">
+        </div>
+        <div id="tb-circle">
+            <img src="icons/tb-circle.png" alt="circle icon">
+        </div>
+        <div id="tb-rectangle">
+            <img src="icons/tb-rectangle.png" alt="rectangle icon">
+        </div>
+        <div id="tb-path">
+            <img src="icons/tb-path.png" alt="path icon">
+        </div>
+    </div>
+
+    <div id="sketch-holder">
+    </div>
+  </section>
+</main>
+<script src="sketch.js"></script>
+</body>
+
+</html>

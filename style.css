@@ -75,13 +75,17 @@ section {
     width: 30px;
     height: auto;
 }
-#toolbar-top input {
-    width: 50px;
-}
+
 input {
+    width: 50px;
     padding: 0;
     background-color: #ffffff30;
     border: none;
+}
+#colour-picker {
+    width: 30px;
+    height: 30px;
+    background-color: transparent;
 }
 
 button {
@@ -100,5 +104,9 @@ canvas {
 }
 
 #img-upload {
+    display: none;
+}
+
+.none {
     display: none;
 }

@@ -2,7 +2,7 @@
 function setup() {
     let canvas = createCanvas(canvasWidth.value, canvasHeight.value);
     canvas.parent('#sketch-holder');
-    strokeWeight(4);
+    strokeWeight(size.value);
     strokeJoin('round');
 }
 
@@ -18,10 +18,21 @@ if (mouseIsPressed && mouseX <= width && mouseX >= 0 && mouseY <= height && mous
         }
     }
     else if (active.id === 'tb-draw') {
-        beginShape();
         line(pmouseX, pmouseY, mouseX,mouseY);
-        endShape();
     }
+    else if (active.id === 'tb-circle') {
+        noLoop();
+        ellipseMode(CENTER);
+        fill(rgb.r, rgb.g, rgb.b, opacity);
+        ellipse(pmouseX, pmouseY, size.value * 10);
+    }
+    else if (active.id === 'tb-rectangle') {
+        noLoop();
+        rectMode(CENTER);
+        fill(rgb.r, rgb.g, rgb.b, opacity);
+        rect(mouseX, mouseY, size.value * 10, size.value * 10);
+    }
+
     // else if (active.id === 'tb-text') {
     //     noLoop();
     //     let typedText = createP('hello');
@@ -42,11 +53,26 @@ function hexToRgb(hex) {
         b: parseInt(result[3], 16)
     } : null;
 }
+function changeToolbarTop(element) {
+    let id = element.id.split('-')[1];
+    for (let tool of toolbarTop) {
+        let classes = tool.className.split(' ');
+        if (classes.includes(id)) {
+            tool.classList.remove('none');
+        }
+        else {
+            tool.classList.add('none');
+        }
+    }
+}
 
 function changeMode(element) {
+        changeToolbarTop(element);
+
         document.querySelector('#' + element.id + ' img').src = `icons/${element.id}-active.png`;
-        active = element;
+
         element.className = 'active';
+        active = element;
 
         for (let tool of toolbarLeft) {
             if (element !== tool) {
@@ -64,6 +90,8 @@ function changeMode(element) {
 let colorPicker = document.querySelector("#colour-picker");
 let rgb = hexToRgb(colorPicker.value);
 let opacity = 255;
+
+let size = document.querySelector('#size');
 
 let clearBtn = document.querySelector('#clear-btn');
 
@@ -87,6 +115,8 @@ let points = [];
 
 let imgs = [];
 let imgFiles = 0;
+
+let toolbarTop = document.querySelector('#toolbar-top').children;
 
 // -------------------------------------------------- ON CLICK/CHANGE
 for (let element of toolbarLeft) {

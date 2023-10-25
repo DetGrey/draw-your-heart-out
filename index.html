@@ -25,31 +25,46 @@
 
 <main>
   <section id="toolbar-top">
-      <p>brush</p>
-      <label for="colour-picker">
+
+      <p class="brush path">brush</p>
+
+      <label for="colour-picker" class="draw circle rectangle path">
         <input id="colour-picker" type="color"/>
       </label>
-      <label for="size">
-        size
-        <input id="size" type="number" min="1" max="100" value="4" onchange="strokeWeight(this.value)">
+
+      <label for="size" class="draw circle rectangle path">
+          <span class="draw path">size</span>
+          <span class="circle rectangle">width</span>
+        <input id="size" type="number" min="1" max="100" value="4">
+          px
       </label>
-      <label for="opacity">
+
+
+      <label for="size-height" class="circle rectangle">
+          height
+      <input id="size-height" type="number" min="1" max="100" value="4">
+          px
+      </label>
+
+      <label for="opacity" class="draw circle rectangle path">
         opacity
         <input id="opacity" type="range" min="0" max="100" value="100">
       </label>
-      <label for="canvas-width">
-        width
+
+      <label for="canvas-width" class="draw">
+        canvas width
         <input id="canvas-width" type="number" min="1" max="2000" value="400">
         px
       </label>
-      <label for="canvas-height">
-        height
+
+      <label for="canvas-height" class="draw">
+        canvas height
         <input id="canvas-height" type="number" min="1" max="2000" value="400">
         px
       </label>
 
-      <button id="clear-btn">Clear</button>
-      <button id="save-btn">Save</button>
+      <button id="clear-btn" class="draw circle rectangle path">Clear</button>
+      <button id="save-btn" class="draw circle rectangle path">Save</button>
   </section>
 
   <section id="main-section">

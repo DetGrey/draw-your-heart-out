@@ -93,27 +93,6 @@ function changeMode(element) {
         }
 }
 
-// Get the modal
-let modal = document.querySelector('#addPictureModal')
-
-// Get the <span> element that closes the modal
-let span = document.querySelectorAll('.closeModal');
-
-// When the user clicks on <span> (x), close the modal
-for (let element of span) {
-    element.addEventListener('click', () => {
-        closeModal();
-    });
-}
-
-function closeModal() {
-    modal.style.display = "none";
-}
-
-function addToGallery() {
-        modal.style.display = "block";
-}
-
 // -------------------------------------------------- VARIABLES
 let colorPicker = document.querySelector('#colour-picker');
 let borderColorPicker = document.querySelector('#border-colour-picker');

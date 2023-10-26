@@ -1,6 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Zeyada&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Handlee&display=swap');
 
+/* -------------------------------------------- BASIC CSS */
 :root {
     --purple: #7E1E80;
 }
@@ -14,7 +15,7 @@
     font-size: 16px;
 }
 
-/* -------------------------------- BACKGROUND AND LOGO */
+/* -------------------------------- BACKGROUND */
 html {
     background: var(--purple);
 }
@@ -26,38 +27,27 @@ body {
 
 }
 
-a, p, button {
-    padding: 1vw;
-}
-
+/* -------------------------------------------- HEADING & HEADER */
 h1 {
     font-family: 'Zeyada', cursive;
     font-size: 60px;
     min-width: fit-content;
 }
 
-header, nav ul {
+header {
     display: flex;
-    justify-content: space-between;
     padding: 0.5vw;
     align-items: center;
     flex-wrap: wrap;
 }
 
-nav li {
-    list-style: none;
-}
-nav a {
-    font-size: 30px;
-    text-decoration: none;
-    /*color: var(--purple);*/
-}
-a:hover {
-    color: white;
-}
+/* -------------------------------------------- SECTIONS */
 section {
     display: flex;
+    flex-wrap: wrap;
 }
+
+/* -------------------------------------------- TOOLBAR TOP */
 #toolbar-top {
     align-items: start;
 }
@@ -68,17 +58,11 @@ section {
     background-color: #ffffff30;
     padding: 5px;
 }
-#toolbar-left {
-    flex-direction: column;
-    width: 40px;
-    justify-self: left;
-    cursor: pointer;
-}
-#toolbar-left img {
-    width: 30px;
-    height: auto;
+.none {
+    display: none;
 }
 
+/* -------------------------------------------- TOOLBAR TOP ELEMENTS */
 input {
     width: 50px;
     padding: 0;
@@ -90,7 +74,6 @@ input[type=color] {
     height: 30px;
     background-color: transparent;
 }
-
 button {
     background-color: #ffffff30;
     border: none;
@@ -99,29 +82,24 @@ button {
 button:hover {
     background-color: #ffffff50;
 }
-#sketch-holder {
-    position: relative;
-    padding: 0;
+
+/* -------------------------------------------- TOOLBAR LEFT */
+#toolbar-left {
+    flex-direction: column;
+    width: 40px;
+    justify-self: left;
+    cursor: pointer;
 }
-canvas {
-    background-color: white;
+#toolbar-left img {
+    width: 35px;
+    height: auto;
 }
 
-#img-upload {
-    display: none;
-}
-
-.none {
-    display: none;
-}
-
-/* Tooltip container */
+/* -------------------------------------------- TOOLTIPS TO TOOLBAR LEFT */
 .tooltip {
     position: relative;
     display: inline-block;
 }
-
-/* Tooltip text */
 .tooltip .tooltiptext {
     display: none;
     width: 120px;
@@ -131,16 +109,26 @@ canvas {
     padding: 5px;
     border-radius: 6px;
 
-    /* Position the tooltip text - see examples below! */
     position: absolute;
     z-index: 1;
 }
-
-/* Show the tooltip text when you mouse over the tooltip container */
 .tooltip:hover .tooltiptext {
     display:inline;
 }
 
+/* -------------------------------------------- CANVAS */
 #sketch-holder {
+    position: relative;
+    padding: 0;
     cursor: crosshair;
+}
+canvas {
+    background-color: white;
+}
+
+/* -------------------------------------------- phones */
+@media screen and (max-width: 450px) {
+    h1 {
+        font-size: 40px;
+    }
 }

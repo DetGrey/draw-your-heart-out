@@ -4,19 +4,23 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <title>Draw your heart out</title>
+
     <link rel="stylesheet" href="style.css">
-    <link rel="icon" href="icons/favicon.png" type="image/x-icon"/>
     <script src="p5.js"></script>
+
+    <link rel="icon" href="icons/favicon.png" type="image/x-icon"/>
 </head>
 
 <body>
+<!--  -------------------------------------------- HEADER  -->
 <header>
   <h1>Draw your heart out</h1>
 </header>
 
-<main>
-  <section id="toolbar-top">
+<!--  -------------------------------------------- TOOLBAR TOP  -->
+    <section id="toolbar-top">
 
       <label for="opacity" class="draw circle rectangle path">
           opacity
@@ -65,37 +69,35 @@
 
       <button id="clear-btn" class="draw circle rectangle path">Clear</button>
       <button id="save-btn" class="draw circle rectangle path">Save</button>
-  </section>
+    </section>
 
-  <section id="main-section">
+<!--  -------------------------------------------- TOOLBAR LEFT  -->
+    <main>
     <div id="toolbar-left">
+
         <div id="tb-draw" class="active tooltip">
             <img src="icons/tb-draw-active.png" alt="pencil icon">
             <span class="tooltiptext">draw with round brush</span>
         </div>
+
         <div id="tb-path" class="tooltip">
             <img src="icons/tb-path.png" alt="path icon">
             <span class="tooltiptext">draw straight lines through paths</span>
         </div>
-<!--        <div id="tb-img">-->
-<!--            <label for="img-upload">-->
-<!--                <img src="icons/tb-img.png" alt="camera icon">-->
-<!--            </label>-->
-<!--            <input id="img-upload" type="file">-->
-<!--        </div>-->
+
         <div id="tb-circle" class="tooltip">
             <img src="icons/tb-circle.png" alt="circle icon">
             <span class="tooltiptext">create ellipse or circle</span>
         </div>
+
         <div id="tb-rectangle" class="tooltip">
             <img src="icons/tb-rectangle.png" alt="rectangle icon">
             <span class="tooltiptext">create square or rectangle</span>
         </div>
     </div>
 
-    <div id="sketch-holder">
-    </div>
-  </section>
+<!--  -------------------------------------------- SKETCH HOLDER FOR CANVAS  -->
+    <div id="sketch-holder"></div>
 </main>
 <script src="sketch.js"></script>
 </body>

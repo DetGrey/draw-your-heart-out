@@ -2,12 +2,12 @@
 <html lang="">
 
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>p5.js example</title>
-  <link rel="stylesheet" href="style.css">
-
-  <script src="p5.js"></script>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Draw your heart out</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" href="icons/favicon.png" type="image/x-icon"/>
+    <script src="p5.js"></script>
 </head>
 
 <body>
@@ -26,29 +26,37 @@
 <main>
   <section id="toolbar-top">
 
-      <p class="brush path">brush</p>
-
-      <label for="colour-picker" class="draw circle rectangle path">
-        <input id="colour-picker" type="color"/>
+      <label for="opacity" class="draw circle rectangle path">
+          opacity
+          <input id="opacity" type="range" min="0" max="100" value="100">
       </label>
 
+      <label for="colour-picker" class="circle rectangle">colour</label>
+      <label for="colour-picker" class="draw circle rectangle path">
+        <input id="colour-picker" type="color" value="#000000"/>
+      </label>
+
+      <label for="border-colour-picker" class="circle rectangle">
+          border
+          <input id="border-colour-picker" type="color" value="#828282"/>
+      </label>
+
+      <label for="border-size" class="circle rectangle">
+          border size
+          <input id="border-size" type="number" value="3"/>
+      </label>
+
+      <label for="size" class="draw path">size</label>
+      <label for="size"  class="circle rectangle">width</label>
       <label for="size" class="draw circle rectangle path">
-          <span class="draw path">size</span>
-          <span class="circle rectangle">width</span>
-        <input id="size" type="number" min="1" max="100" value="4">
+        <input id="size" type="number" min="1" max="100" value="20">
           px
       </label>
 
-
-      <label for="size-height" class="circle rectangle">
+      <label for="size-height" class="rectangle">
           height
       <input id="size-height" type="number" min="1" max="100" value="4">
           px
-      </label>
-
-      <label for="opacity" class="draw circle rectangle path">
-        opacity
-        <input id="opacity" type="range" min="0" max="100" value="100">
       </label>
 
       <label for="canvas-width" class="draw">
@@ -69,29 +77,46 @@
 
   <section id="main-section">
     <div id="toolbar-left">
-        <div id="tb-draw" class="active">
+        <div id="tb-draw" class="active tooltip">
             <img src="icons/tb-draw-active.png" alt="pencil icon">
+            <span class="tooltiptext">draw with round brush</span>
         </div>
-        <div id="tb-img">
-            <label for="img-upload">
-                <img src="icons/tb-img.png" alt="camera icon">
-            </label>
-            <input id="img-upload" type="file">
-        </div>
-        <div id="tb-circle">
-            <img src="icons/tb-circle.png" alt="circle icon">
-        </div>
-        <div id="tb-rectangle">
-            <img src="icons/tb-rectangle.png" alt="rectangle icon">
-        </div>
-        <div id="tb-path">
+        <div id="tb-path" class="tooltip">
             <img src="icons/tb-path.png" alt="path icon">
+            <span class="tooltiptext">draw straight lines through paths</span>
+        </div>
+<!--        <div id="tb-img">-->
+<!--            <label for="img-upload">-->
+<!--                <img src="icons/tb-img.png" alt="camera icon">-->
+<!--            </label>-->
+<!--            <input id="img-upload" type="file">-->
+<!--        </div>-->
+        <div id="tb-circle" class="tooltip">
+            <img src="icons/tb-circle.png" alt="circle icon">
+            <span class="tooltiptext">create ellipse or circle</span>
+        </div>
+        <div id="tb-rectangle" class="tooltip">
+            <img src="icons/tb-rectangle.png" alt="rectangle icon">
+            <span class="tooltiptext">create square or rectangle</span>
         </div>
     </div>
 
     <div id="sketch-holder">
     </div>
   </section>
+
+    <div id="addPictureModal" class="modal">
+
+        <!-- Modal content -->
+        <div class="modal-content">
+            <span class="closeModal">&times;</span>
+            <h2>Do you want to add the saved picture to the public gallery?</h2>
+            <label for="addPicture">Yes</label>
+            <input type="file" id="addPicture">
+            <button class="closeModal">No</button>
+        </div>
+
+    </div>
 </main>
 <script src="sketch.js"></script>
 </body>

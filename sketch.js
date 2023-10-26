@@ -2,15 +2,17 @@
 function setup() {
     let canvas = createCanvas(canvasWidth.value, canvasHeight.value);
     canvas.parent('#sketch-holder');
-    strokeWeight(size.value);
-    strokeJoin('round');
+    changeToolbarTop(active);
 }
 
 function draw() {
 if (mouseIsPressed && mouseX <= width && mouseX >= 0 && mouseY <= height && mouseY >= 0) {
     stroke(rgb.r, rgb.g, rgb.b, opacity);
+    strokeWeight(size.value);
 
     if (active.id === 'tb-path') {
+        noLoop();
+        strokeJoin('round');
         point(mouseX, mouseY);
         points.push({x:mouseX, y:mouseY});
         if (points.length > 1) {
@@ -18,19 +20,24 @@ if (mouseIsPressed && mouseX <= width && mouseX >= 0 && mouseY <= height && mous
         }
     }
     else if (active.id === 'tb-draw') {
+        strokeJoin('round');
         line(pmouseX, pmouseY, mouseX,mouseY);
     }
     else if (active.id === 'tb-circle') {
+        strokeWeight(borderSize.value);
         noLoop();
-        ellipseMode(CENTER);
+        ellipseMode(CENTER)
         fill(rgb.r, rgb.g, rgb.b, opacity);
-        ellipse(pmouseX, pmouseY, size.value * 10);
+        stroke(rgbBorder.r, rgbBorder.g, rgbBorder.b, opacity);
+        ellipse(pmouseX, pmouseY, size.value);
     }
     else if (active.id === 'tb-rectangle') {
+        strokeWeight(borderSize.value);
         noLoop();
         rectMode(CENTER);
         fill(rgb.r, rgb.g, rgb.b, opacity);
-        rect(mouseX, mouseY, size.value * 10, size.value * 10);
+        stroke(rgbBorder.r, rgbBorder.g, rgbBorder.b, opacity);
+        rect(mouseX, mouseY, size.value, size.value);
     }
 
     // else if (active.id === 'tb-text') {
@@ -71,7 +78,7 @@ function changeMode(element) {
 
         document.querySelector('#' + element.id + ' img').src = `icons/${element.id}-active.png`;
 
-        element.className = 'active';
+        element.classList.add('active');
         active = element;
 
         for (let tool of toolbarLeft) {
@@ -86,12 +93,36 @@ function changeMode(element) {
         }
 }
 
+// Get the modal
+let modal = document.querySelector('#addPictureModal')
+
+// Get the <span> element that closes the modal
+let span = document.querySelectorAll('.closeModal');
+
+// When the user clicks on <span> (x), close the modal
+for (let element of span) {
+    element.addEventListener('click', () => {
+        closeModal();
+    });
+}
+
+function closeModal() {
+    modal.style.display = "none";
+}
+
+function addToGallery() {
+        modal.style.display = "block";
+}
+
 // -------------------------------------------------- VARIABLES
-let colorPicker = document.querySelector("#colour-picker");
+let colorPicker = document.querySelector('#colour-picker');
+let borderColorPicker = document.querySelector('#border-colour-picker');
 let rgb = hexToRgb(colorPicker.value);
+let rgbBorder = hexToRgb(borderColorPicker.value);
 let opacity = 255;
 
 let size = document.querySelector('#size');
+let borderSize = document.querySelector('#border-size');
 
 let clearBtn = document.querySelector('#clear-btn');
 
@@ -162,5 +193,8 @@ saveBtn.addEventListener('click', () => {
     let getdate = new Date().toLocaleDateString().replaceAll('/', '')
         getdate += '-' + new Date().toLocaleTimeString().replaceAll(':', '');
     save(`${getdate}.png`);
-});
 
+    setTimeout(function(){
+        addToGallery();
+    }, 2000);
+});

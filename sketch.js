@@ -16,9 +16,6 @@ function setup() {
     let canvas = createCanvas(canvasWidth.value, canvasHeight.value);
     canvas.parent('#sketch-holder');
     changeToolbarTop(active);
-    previousState = [];
-    stateIndex = 0;
-    saveState();
 }
 
 // -------------------------------------------------- RESIZE CANVAS
@@ -64,6 +61,9 @@ function mouseReleased() {
 
     if (!colorOpen && mouseX <= width && mouseX >= 0 && mouseY <= height && mouseY >= 0) {
         saveState();
+        redoBtn.style.color = '#00000050';
+        nextState = [];
+        nextStateIndex = 0;
     }
 }
 
@@ -245,33 +245,76 @@ function changeToolbarTop(element) {
 
 // -------------------------------------------------- UNDO
 let previousState = [];
-let stateIndex = 0;
+let nextState = [];
+let previousStateIndex = 0;
+let nextStateIndex = 0;
 let undoBtn = document.querySelector('#undo-btn');
+let redoBtn = document.querySelector('#redo-btn');
 
 undoBtn.addEventListener('click', () => {
-    undoToPreviousState();
+    if (previousState.length === 0 || previousState[previousStateIndex - 1] === undefined) {
+        undoBtn.style.color = '#00000050';
+    }
+    else {
+        undoToPreviousState();
+    }
+});
+redoBtn.addEventListener('click', () => {
+    if (nextState.length === 0 || nextState[nextStateIndex - 1] === undefined) {
+        redoBtn.style.color = '#00000050';
+    }
+    else {
+        redoToNextState();
+    }
 });
 
 function undoToPreviousState() {
-    background(255)
-    image(previousState[stateIndex - 1], 0, 0, canvasWidth.value, canvasHeight.value);
-    stateIndex--;
-}
+    setTimeout(() => {
+        nextState.push(previousState[previousStateIndex]);
+        nextStateIndex++;
+        redoBtn.style.color = 'black';
 
+        previousState.splice(previousStateIndex, 1);
+        previousStateIndex--;
+        if (previousState.length === 0) {
+            undoBtn.style.color = '#00000050';
+        }
+
+        background(255)
+        image(previousState[previousStateIndex], 0, 0, canvasWidth.value, canvasHeight.value);
+    }, 200);
+}
+function redoToNextState() {
+    setTimeout(() => {
+        previousState.push(nextState[nextStateIndex - 1]);
+        previousStateIndex++;
+        undoBtn.style.color = 'black';
+
+        nextState.splice(nextStateIndex, 1);
+        nextStateIndex--;
+        if (nextState.length === 0) {
+            redoBtn.style.color = '#00000050';
+        }
+
+        background(255)
+        image(nextState[nextStateIndex], 0, 0, canvasWidth.value, canvasHeight.value);
+    }, 200);
+}
 function saveState() {
     loadPixels();
     previousState.push(get());
-    stateIndex++;
+    previousStateIndex++;
+    undoBtn.style.color = 'black';
 }
 
 // -------------------------------------------------- CLEAR CANVAS
 let clearBtn = document.querySelector('#clear-btn');
 clearBtn.addEventListener('click', () => {
     clear();
-    paths = [];
-    previousState = [];
-    stateIndex = 0;
-    saveState();
+    paths = previousState = nextState = [];
+    previousStateIndex = nextStateIndex = 0;
+    undoBtn.style.color = '#00000050';
+    redoBtn.style.color = '#00000050';
 });
 
 // -------------------------------------------------- SAVE CANVAS AS PNG

@@ -68,6 +68,11 @@ section {
     justify-content: end;
 }
 
+/* -------------------------------------------- UNDO, REDO */
+#undo-btn, #redo-btn {
+    color: #00000050;
+}
+
 /* -------------------------------------------- TOOLBAR TOP ELEMENTS */
 label {
     display: flex;

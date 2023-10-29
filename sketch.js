@@ -209,7 +209,7 @@ lessMoreBtns.forEach(btns => {
         btn.addEventListener('mousedown', () => {
             changeValueInterval = setInterval(() => {
                 // You are now in a hold state, you can do whatever you like!
-                addOrSubtractToNumber(element, element.value, btns[1]);
+                addOrSubtractNumber(element, element.value, btns[1]);
             }, 200);
         });
         btn.addEventListener('mouseup', () => {
@@ -220,7 +220,7 @@ lessMoreBtns.forEach(btns => {
     }
 });
 
-function addOrSubtractToNumber(element, value, symbol) {
+function addOrSubtractNumber(element, value, symbol) {
     if (symbol === '-') {
         element.value--;
     }
@@ -259,52 +259,75 @@ let nextStateIndex = 0;
 let undoBtn = document.querySelector('#undo-btn');
 let redoBtn = document.querySelector('#redo-btn');
 
-undoBtn.addEventListener('click', () => {
-    setTimeout(() => {
-    if (previousState.length === 0) {
-        greyOutText(undoBtn);
-    }
-    else {
+window.addEventListener('keydown', (e) => {
+    if (e.key === 'z' && e.ctrlKey) {
+        e.preventDefault();
         undoToPreviousState();
-    }},200);
-});
-redoBtn.addEventListener('click', () => {
-    setTimeout(() => {
-    if (nextState.length === 0 || nextState[nextStateIndex - 1] === undefined) {
-        greyOutText(redoBtn);
     }
-    else {
+    else if (e.key === 'y' && e.ctrlKey) {
+        e.preventDefault();
         redoToNextState();
-    }}, 200);
+    }
+    else if (e.key === 's' && e.ctrlKey) {
+        e.preventDefault();
+        saveCanvasAsPNG();
+    }
+    else if (e.key === 'Delete'){
+        e.preventDefault();
+        clearCanvas();
+    }
+});
+
+undoBtn.addEventListener('click', () => {
+    undoToPreviousState();
+});
+
+redoBtn.addEventListener('click', () => {
+    redoToNextState();
 });
 
 function undoToPreviousState() {
-    nextState.push(previousState[previousStateIndex]);
-    nextStateIndex++;
-    activeText(redoBtn);
+    setTimeout(() => {
+        if (previousState.length === 0) {
+            greyOutText(undoBtn);
+        }
+        else {
+            nextState.push(previousState[previousStateIndex]);
+            nextStateIndex++;
+            activeText(redoBtn);
 
-    previousState.splice(previousStateIndex, 1);
-    previousStateIndex--;
-    if (previousState.length === 0) {
-        greyOutText(undoBtn);
-    }
+            previousState.splice(previousStateIndex, 1);
+            previousStateIndex--;
+            if (previousState.length === 0) {
+                greyOutText(undoBtn);
+            }
 
-    background(255)
-    image(previousState[previousStateIndex], 0, 0, canvasWidth.value, canvasHeight.value);
+            background(255)
+            image(previousState[previousStateIndex], 0, 0, canvasWidth.value, canvasHeight.value);
+        }
+    },200);
 }
 function redoToNextState() {
-    previousState.push(nextState[nextStateIndex - 1]);
-    previousStateIndex++;
-    activeText(undoBtn);
+    setTimeout(() => {
+        if (nextState.length === 0 || nextState[nextStateIndex - 1] === undefined) {
+            greyOutText(redoBtn);
+        }
+        else {
 
-    nextState.splice(nextStateIndex, 1);
-    nextStateIndex--;
-    if (nextState.length === 0) {
-        greyOutText(redoBtn);
-    }
+            previousState.push(nextState[nextStateIndex - 1]);
+            previousStateIndex++;
+            activeText(undoBtn);
 
-    background(255)
-    image(nextState[nextStateIndex], 0, 0, canvasWidth.value, canvasHeight.value);
+            nextState.splice(nextStateIndex, 1);
+            nextStateIndex--;
+            if (nextState.length === 0) {
+                greyOutText(redoBtn);
+            }
+
+            background(255)
+            image(nextState[nextStateIndex], 0, 0, canvasWidth.value, canvasHeight.value);
+        }
+    }, 200);
 }
 function saveState() {
     loadPixels();
@@ -316,17 +339,23 @@ function saveState() {
 // -------------------------------------------------- CLEAR CANVAS
 let clearBtn = document.querySelector('#clear-btn');
 clearBtn.addEventListener('click', () => {
+    clearCanvas();
+});
+function clearCanvas() {
     clear();
     paths = previousState = nextState = [];
     previousStateIndex = nextStateIndex = 0;
     greyOutText(undoBtn);
     greyOutText(redoBtn);
-});
+}
 
 // -------------------------------------------------- SAVE CANVAS AS PNG
 let saveBtn = document.querySelector('#save-btn');
 saveBtn.addEventListener('click', () => {
-    let getdate = new Date().toLocaleDateString().replaceAll('/', '')
-        getdate += '-' + new Date().toLocaleTimeString().replaceAll(':', '');
-    save(`${getdate}.png`);
+    saveCanvasAsPNG();
 });
+function saveCanvasAsPNG() {
+    let getdate = new Date().toLocaleDateString().replaceAll('/', '')
+    getdate += '-' + new Date().toLocaleTimeString().replaceAll(':', '');
+    save(getdate + `.png`);
+}

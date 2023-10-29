@@ -63,10 +63,11 @@ section {
 .none {
     display: none;
 }
-#buttons > * {
+#buttons div > * {
     padding: 10px;
 }
 #buttons {
+    overflow: visible;
     align-items: center;
     justify-content: end;
 }
@@ -184,6 +185,27 @@ main {
     height: auto;
 }
 
+/* -------------------------------------------- TOOLTIPS TO TOOLBAR TOP */
+.tooltip-down {
+    position: relative;
+    overflow: visible;
+}
+.tooltiptext-down {
+    display: none;
+    width: 50px;
+    background-color: rgba(126, 30, 128, 0.42);
+    color: #fff;
+    text-align: center;
+    padding: 5px;
+    border-radius: 6px;
+    position: absolute;
+    right: 0;
+    margin-top: 5px;
+}
+.tooltip-down:hover .tooltiptext-down {
+    display: block;
+}
+
 /* -------------------------------------------- TOOLTIPS TO TOOLBAR LEFT */
 #toolbar-left .tooltip {
     position: relative;
@@ -219,7 +241,7 @@ canvas {
         font-size: 40px;
     }
 }
-@media screen and (min-width: 1000px) {
+@media screen and (min-width: 1200px) {
     body {
         padding: 0 15%;
     }

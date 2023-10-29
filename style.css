@@ -53,7 +53,7 @@ section {
     align-items: center;
     justify-content: center;
 }
-#toolbar-top > *, #buttons > * {
+#toolbar-top > * {
     padding: 1.5vw;
 }
 #toolbar-top, main, #buttons {
@@ -62,6 +62,9 @@ section {
 }
 .none {
     display: none;
+}
+#buttons > * {
+    padding: 10px;
 }
 #buttons {
     align-items: center;
@@ -210,9 +213,17 @@ canvas {
     background-color: white;
 }
 
-/* -------------------------------------------- phones */
+/* -------------------------------------------- responsive design */
 @media screen and (max-width: 450px) {
     h1 {
         font-size: 40px;
+    }
+}
+@media screen and (min-width: 1000px) {
+    body {
+        padding: 0 15%;
+    }
+    main {
+        height: 60vh;
     }
 }

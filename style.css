@@ -13,7 +13,7 @@
     font-family: 'Handlee', cursive;
     font-weight: bold;
     font-size: 16px;
-    overflow: hidden;
+    overflow-x: hidden;
 }
 
 /* -------------------------------- BACKGROUND */
@@ -53,28 +53,98 @@ section {
     align-items: center;
     justify-content: center;
 }
-#toolbar-top > * {
+#toolbar-top > *, #buttons > * {
     padding: 1.5vw;
 }
-#toolbar-top, main {
+#toolbar-top, main, #buttons {
     background-color: #ffffff30;
     padding: 5px;
 }
 .none {
     display: none;
 }
+#buttons {
+    align-items: center;
+    justify-content: end;
+}
 
 /* -------------------------------------------- TOOLBAR TOP ELEMENTS */
-input {
-    width: 50px;
-    padding: 0;
-    background-color: #ffffff30;
-    border: none;
+label {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
+input {
+    padding: 0;
+    border: none;
+    background-color: transparent;
+    text-align: center;
+}
+
+/* Opacity range slide */
+#opacity {
+    width: 75px;
+    height: 15px;
+    -webkit-appearance: none;
+    background: #ffffff30;
+    outline: none;
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: inset 0 0 5px #ffffff30;
+}
+#opacity::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    background: black;
+    cursor: pointer;
+    border: 2px solid var(--purple);
+    box-shadow: -407px 0 0 400px var(--purple);
+
+}
+#opacity-value-number {
+    width: 30px;
+    text-align: center;
+}
+#opacity-value-number {
+    outline: none;
+}
+input[type=number]::-webkit-outer-spin-button,
+input[type=number]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+/* Number input */
+input[type=number] {
+    min-width: 30px;
+    max-width: fit-content;
+    padding: 0;
+    /* Firefox */
+    -moz-appearance: textfield;
+}
+input[type=number]:focus {
+    outline: var(--purple) solid 2px;
+}
+.numberSpan {
+    margin: 0;
+    background-color: #ffffff30;
+}
+.numberSpan button {
+    background-color: transparent;
+    padding: 5px;
+}
+.numberSpan:has(#canvas-width), .numberSpan:has(#canvas-height) {
+    padding: 5px;
+}
+
+/* Color input */
 input[type=color] {
     width: 30px;
     height: 30px;
     background-color: transparent;
+    cursor: pointer;
 }
 button {
     background-color: #ffffff30;
@@ -98,8 +168,8 @@ main {
 #toolbar-left {
     flex-direction: column;
     width: 50px;
-    justify-self: left;
     cursor: pointer;
+    overflow: visible;
 }
 #toolbar-left img {
     width: 35px;
@@ -107,11 +177,11 @@ main {
 }
 
 /* -------------------------------------------- TOOLTIPS TO TOOLBAR LEFT */
-.tooltip {
+#toolbar-left .tooltip {
     position: relative;
-    display: inline-block;
+    overflow: visible;
 }
-.tooltip .tooltiptext {
+.tooltiptext {
     display: none;
     width: 120px;
     background-color: #7E1E80a0;
@@ -119,20 +189,17 @@ main {
     text-align: center;
     padding: 5px;
     border-radius: 6px;
-
     position: absolute;
-    z-index: 1;
+    margin-left: 5px;
 }
 .tooltip:hover .tooltiptext {
-    display:inline;
+    display: inline;
 }
 
 /* -------------------------------------------- CANVAS */
 #sketch-holder {
-    position: relative;
     padding: 0;
     cursor: crosshair;
-    overflow: auto;
 }
 canvas {
     background-color: white;

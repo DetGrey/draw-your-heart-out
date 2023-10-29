@@ -16,10 +16,13 @@ function setup() {
     let canvas = createCanvas(canvasWidth.value, canvasHeight.value);
     canvas.parent('#sketch-holder');
     changeToolbarTop(active);
+    previousState = [];
+    stateIndex = 0;
+    saveState();
 }
 
 // -------------------------------------------------- RESIZE CANVAS
-canvasWidth.element.onchange = () => {
+canvasWidth.element.addEventListener('change', () => {
     if (canvasWidth.element.value < parseInt(canvasWidth.element.min)) {
         canvasWidth.element.value = parseInt(canvasWidth.element.min)
     }
@@ -28,8 +31,8 @@ canvasWidth.element.onchange = () => {
     }
     canvasWidth.value = canvasWidth.element.value;
     resizeCanvas(canvasWidth.value, canvasHeight.value);
-}
-canvasHeight.element.onchange = () => {
+});
+canvasHeight.element.addEventListener('change', () => {
     if (canvasHeight.element.value < parseInt(canvasHeight.element.min)) {
         canvasHeight.element.value = parseInt(canvasHeight.element.min)
     }
@@ -38,7 +41,7 @@ canvasHeight.element.onchange = () => {
     }
     canvasHeight.value = canvasHeight.element.value;
     resizeCanvas(canvasWidth.value, canvasHeight.value);
-}
+});
 
 // -------------------------------------------------- DRAW
 function draw() {
@@ -58,6 +61,10 @@ function draw() {
     }}
 function mouseReleased() {
     loop();
+
+    if (!colorOpen && mouseX <= width && mouseX >= 0 && mouseY <= height && mouseY >= 0) {
+        saveState();
+    }
 }
 
 // -------------------------------------------------- DRAWING MODES
@@ -92,6 +99,7 @@ for (let element of toolbarLeft) {
 
 // -------------------------------------------------- BRUSH MODES / SHAPES
 let size = document.querySelector('#size');
+let sizeHeight = document.querySelector('#size-height');
 let borderSize = document.querySelector('#border-size');
 let paths = [];
 function drawPath() {
@@ -118,7 +126,7 @@ function createEllipse() {
     ellipseMode(CENTER)
     fill(rgb.r, rgb.g, rgb.b, opacity);
     stroke(rgbBorder.r, rgbBorder.g, rgbBorder.b, opacity);
-    ellipse(pmouseX, pmouseY, size.value);
+    ellipse(pmouseX, pmouseY, size.value, sizeHeight.value);
 }
 function createRectangle() {
     strokeWeight(borderSize.value);
@@ -126,7 +134,7 @@ function createRectangle() {
     rectMode(CENTER);
     fill(rgb.r, rgb.g, rgb.b, opacity);
     stroke(rgbBorder.r, rgbBorder.g, rgbBorder.b, opacity);
-    rect(mouseX, mouseY, size.value, size.value);
+    rect(mouseX, mouseY, size.value, sizeHeight.value);
 }
 
 // -------------------------------------------------- CONVERT HEX TO RGB
@@ -140,31 +148,90 @@ function hexToRgb(hex) {
 }
 
 // -------------------------------------------------- TOOLBAR TOP ELEMENTS
+// opacity
+let opacity = 255;
+let opacityValue = document.querySelector('#opacity');
+let opacityValueNumber = document.querySelector('#opacity-value-number');
+
+opacityValue.addEventListener('change', () => {
+    opacity = opacityValue.value / 100 * 255;
+    opacityValueNumber.value = opacityValue.value;
+});
+opacityValue.addEventListener('mousemove', () => {
+    opacity = opacityValue.value / 100 * 255;
+    opacityValueNumber.value = opacityValue.value;
+});
+opacityValueNumber.addEventListener('change', () => {
+    opacity = opacityValueNumber.value / 100 * 255;
+    opacityValue.value = opacityValueNumber.value;
+});
+
+// color picker
 let colorPicker = document.querySelector('#colour-picker');
 let rgb = hexToRgb(colorPicker.value);
+let colorOpen = false;
 
-colorPicker.onchange = () => {
+colorPicker.addEventListener('click', () => {
+    colorOpen = true;
+});
+colorPicker.addEventListener('change', () => {
     rgb = hexToRgb(colorPicker.value);
-}
+});
+colorPicker.addEventListener('blur', () => {
+    colorOpen = false;
+});
 
+// border color and size
 let borderColorPicker = document.querySelector('#border-colour-picker');
 let rgbBorder = hexToRgb(borderColorPicker.value);
 
-borderColorPicker.onchange = () => {
+borderColorPicker.addEventListener('change', () => {
     rgbBorder = hexToRgb(borderColorPicker.value);
-}
+});
 
-let opacity = 255;
-let opacityValue = document.querySelector('#opacity');
+// more or less buttons
+let lessBtns = document.querySelectorAll('.less-btn');
+let moreBtns = document.querySelectorAll('.more-btn');
+let lessMoreBtns = [[lessBtns, '-'], [moreBtns, '+']];
+let changeValueInterval;
+lessMoreBtns.forEach(btns => {
+    for (let btn of btns[0]) {
+        let element = btn.parentElement.children[1];
 
-opacityValue.onchange = () => {
-    opacity = opacityValue.value / 100 * 255;
+        btn.addEventListener('mousedown', () => {
+            changeValueInterval = setInterval(() => {
+                // You are now in a hold state, you can do whatever you like!
+                addOrSubtractToNumber(element, element.value, btns[1]);
+            }, 200);
+        });
+        btn.addEventListener('mouseup', () => {
+            setTimeout(() => {
+                clearInterval(changeValueInterval);
+            }, 200);
+        });
+    }
+});
+
+function addOrSubtractToNumber(element, value, symbol) {
+    if (symbol === '-') {
+        element.value--;
+    }
+    else {
+        element.value++;
+    }
 }
 
 // -------------------------------------------------- TOOLBAR TOP
 let toolbarTop = document.querySelector('#toolbar-top').children;
 function changeToolbarTop(element) {
     let id = element.id.split('-')[1];
+    if (id === 'rectangle' || id === 'circle') {
+        document.querySelector('#size-span').innerText = 'width (px)';
+    }
+    else {
+        document.querySelector('#size-span').innerText = 'size (px)';
+    }
+
     for (let tool of toolbarTop) {
         let classes = tool.className.split(' ');
         if (classes.includes(id)) {
@@ -176,12 +243,35 @@ function changeToolbarTop(element) {
     }
 }
 
+// -------------------------------------------------- UNDO
+let previousState = [];
+let stateIndex = 0;
+let undoBtn = document.querySelector('#undo-btn');
+
+undoBtn.addEventListener('click', () => {
+    undoToPreviousState();
+});
+
+function undoToPreviousState() {
+    background(255)
+    image(previousState[stateIndex - 1], 0, 0, canvasWidth.value, canvasHeight.value);
+    stateIndex--;
+}
+
+function saveState() {
+    loadPixels();
+    previousState.push(get());
+    stateIndex++;
+}
 
 // -------------------------------------------------- CLEAR CANVAS
 let clearBtn = document.querySelector('#clear-btn');
 clearBtn.addEventListener('click', () => {
     clear();
     paths = [];
+    previousState = [];
+    stateIndex = 0;
+    saveState();
 });
 
 // -------------------------------------------------- SAVE CANVAS AS PNG

@@ -20,55 +20,71 @@
 </header>
 
 <!--  -------------------------------------------- TOOLBAR TOP  -->
+    <section id="buttons">
+        <button id="undo-btn">undo</button>
+        <button id="redo-btn">redo</button>
+        <button id="clear-btn">clear</button>
+        <button id="save-btn">save</button>
+    </section>
+
     <section id="toolbar-top">
 
-      <label for="opacity" class="draw circle rectangle path">
-          opacity
-          <input id="opacity" type="range" min="0" max="100" value="100">
-      </label>
+        <label for="opacity" class="draw circle rectangle path">
+            <span>opacity</span>
+            <input id="opacity-value-number" type="number" min="0" max="100" value="100">
+            <input id="opacity" type="range" min="0" max="100" value="100">
+        </label>
 
-      <label for="colour-picker" class="circle rectangle">colour</label>
-      <label for="colour-picker" class="draw circle rectangle path">
-        <input id="colour-picker" type="color" value="#000000"/>
-      </label>
+        <label for="colour-picker" class="draw circle rectangle path">
+            <span>colour</span>
+            <input id="colour-picker" type="color" value="#000000"/>
+        </label>
 
-      <label for="border-colour-picker" class="circle rectangle">
-          border
-          <input id="border-colour-picker" type="color" value="#828282"/>
-      </label>
+        <label for="border-colour-picker" class="circle rectangle">
+            <span>border</span>
+            <input id="border-colour-picker" type="color" value="#828282"/>
+        </label>
 
-      <label for="border-size" class="circle rectangle">
-          border size
-          <input id="border-size" type="number" value="3"/>
-      </label>
+        <label for="border-size" class="circle rectangle">
+            <span>border size (px)</span>
+            <span class="numberSpan">
+                <button class="less-btn">-</button>
+                <input id="border-size" type="number" min="1" max="100" value="3"/>
+                <button class="more-btn">+</button>
+            </span>
+        </label>
 
-      <label for="size" class="draw path">size</label>
-      <label for="size"  class="circle rectangle">width</label>
-      <label for="size" class="draw circle rectangle path">
-        <input id="size" type="number" min="1" max="100" value="20">
-          px
-      </label>
+        <label for="size" class="draw circle rectangle path">
+            <span id="size-span">size (px)</span>
+            <span class="numberSpan">
+                <button class="less-btn">-</button>
+                <input id="size" type="number" min="1" max="100" value="20">
+                <button class="more-btn">+</button>
+            </span>
+        </label>
 
-      <label for="size-height" class="rectangle">
-          height
-      <input id="size-height" type="number" min="1" max="100" value="4">
-          px
-      </label>
+        <label for="size-height" class="circle rectangle">
+            <span>height (px)</span>
+            <span class="numberSpan">
+                <button class="less-btn">-</button>
+                <input id="size-height" type="number" min="1" max="100" value="20">
+                <button class="more-btn">+</button>
+            </span>
+        </label>
 
-      <label for="canvas-width" class="draw">
-        canvas width
-        <input id="canvas-width" type="number" min="1" max="2000" value="400">
-        px
-      </label>
+        <label for="canvas-width" class="draw">
+            <span>canvas width (px)</span>
+            <span class="numberSpan">
+                <input id="canvas-width" type="number" min="1" max="2000" value="400">
+            </span>
+        </label>
 
-      <label for="canvas-height" class="draw">
-        canvas height
-        <input id="canvas-height" type="number" min="1" max="2000" value="400">
-        px
-      </label>
-
-      <button id="clear-btn" class="draw circle rectangle path">Clear</button>
-      <button id="save-btn" class="draw circle rectangle path">Save</button>
+        <label for="canvas-height" class="draw">
+            <span>canvas height (px)</span>
+            <span class="numberSpan">
+                <input id="canvas-height" type="number" min="1" max="2000" value="400">
+            </span>
+        </label>
     </section>
 
 <!--  -------------------------------------------- TOOLBAR LEFT  -->

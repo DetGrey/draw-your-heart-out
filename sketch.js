@@ -61,7 +61,7 @@ function mouseReleased() {
 
     if (!colorOpen && mouseX <= width && mouseX >= 0 && mouseY <= height && mouseY >= 0) {
         saveState();
-        redoBtn.style.color = '#00000050';
+        greyOutText(redoBtn);
         nextState = [];
         nextStateIndex = 0;
     }
@@ -145,6 +145,14 @@ function hexToRgb(hex) {
         g: parseInt(result[2], 16),
         b: parseInt(result[3], 16)
     } : null;
+}
+
+// -------------------------------------------------- GREY OUT TEXT / ACTIVE TEXT
+function greyOutText(element) {
+    element.style.color = '#00000050';
+}
+function activeText(element) {
+    element.style.color = 'black';
 }
 
 // -------------------------------------------------- TOOLBAR TOP ELEMENTS
@@ -252,59 +260,57 @@ let undoBtn = document.querySelector('#undo-btn');
 let redoBtn = document.querySelector('#redo-btn');
 
 undoBtn.addEventListener('click', () => {
-    if (previousState.length === 0 || previousState[previousStateIndex - 1] === undefined) {
-        undoBtn.style.color = '#00000050';
+    setTimeout(() => {
+    if (previousState.length === 0) {
+        greyOutText(undoBtn);
     }
     else {
         undoToPreviousState();
-    }
+    }},200);
 });
 redoBtn.addEventListener('click', () => {
+    setTimeout(() => {
     if (nextState.length === 0 || nextState[nextStateIndex - 1] === undefined) {
-        redoBtn.style.color = '#00000050';
+        greyOutText(redoBtn);
     }
     else {
         redoToNextState();
-    }
+    }}, 200);
 });
 
 function undoToPreviousState() {
-    setTimeout(() => {
-        nextState.push(previousState[previousStateIndex]);
-        nextStateIndex++;
-        redoBtn.style.color = 'black';
+    nextState.push(previousState[previousStateIndex]);
+    nextStateIndex++;
+    activeText(redoBtn);
 
-        previousState.splice(previousStateIndex, 1);
-        previousStateIndex--;
-        if (previousState.length === 0) {
-            undoBtn.style.color = '#00000050';
-        }
+    previousState.splice(previousStateIndex, 1);
+    previousStateIndex--;
+    if (previousState.length === 0) {
+        greyOutText(undoBtn);
+    }
 
-        background(255)
-        image(previousState[previousStateIndex], 0, 0, canvasWidth.value, canvasHeight.value);
-    }, 200);
+    background(255)
+    image(previousState[previousStateIndex], 0, 0, canvasWidth.value, canvasHeight.value);
 }
 function redoToNextState() {
-    setTimeout(() => {
-        previousState.push(nextState[nextStateIndex - 1]);
-        previousStateIndex++;
-        undoBtn.style.color = 'black';
+    previousState.push(nextState[nextStateIndex - 1]);
+    previousStateIndex++;
+    activeText(undoBtn);
 
-        nextState.splice(nextStateIndex, 1);
-        nextStateIndex--;
-        if (nextState.length === 0) {
-            redoBtn.style.color = '#00000050';
-        }
+    nextState.splice(nextStateIndex, 1);
+    nextStateIndex--;
+    if (nextState.length === 0) {
+        greyOutText(redoBtn);
+    }
 
-        background(255)
-        image(nextState[nextStateIndex], 0, 0, canvasWidth.value, canvasHeight.value);
-    }, 200);
+    background(255)
+    image(nextState[nextStateIndex], 0, 0, canvasWidth.value, canvasHeight.value);
 }
 function saveState() {
     loadPixels();
     previousState.push(get());
     previousStateIndex++;
-    undoBtn.style.color = 'black';
+    activeText(undoBtn);
 }
 
 // -------------------------------------------------- CLEAR CANVAS
@@ -313,8 +319,8 @@ clearBtn.addEventListener('click', () => {
     clear();
     paths = previousState = nextState = [];
     previousStateIndex = nextStateIndex = 0;
-    undoBtn.style.color = '#00000050';
-    redoBtn.style.color = '#00000050';
+    greyOutText(undoBtn);
+    greyOutText(redoBtn);
 });
 
 // -------------------------------------------------- SAVE CANVAS AS PNG

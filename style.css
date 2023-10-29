@@ -236,9 +236,12 @@ canvas {
 }
 
 /* -------------------------------------------- responsive design */
-@media screen and (max-width: 450px) {
+@media screen and (max-width: 500px) {
     h1 {
         font-size: 40px;
+    }
+    .tooltip-down:hover .tooltiptext-down {
+        display: none;
     }
 }
 @media screen and (min-width: 1200px) {
